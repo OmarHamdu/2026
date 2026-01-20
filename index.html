@@ -2,187 +2,230 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KINGS TECH OS | V6.0 Ultimate</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KINGS TECH OS | V8.1 Fixed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --bg-dark: #020617;
-            --glass-bg: rgba(15, 23, 42, 0.7);
+            --bg-dark: #0f172a;
+            --bg-darker: #020617;
+            --glass-bg: rgba(30, 41, 59, 0.7);
             --glass-border: rgba(255, 255, 255, 0.08);
             --primary: #3b82f6;
+            --primary-glow: rgba(59, 130, 246, 0.4);
             --accent: #f59e0b;
-            --text: #f1f5f9;
+            --text: #f8fafc;
             --text-muted: #94a3b8;
             --success: #10b981;
             --danger: #ef4444;
+            --sidebar-width: 280px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { 
             background-color: var(--bg-dark); 
             background-image: 
-                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.1) 0px, transparent 50%);
+                radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 50%);
             color: var(--text); 
             display: flex; 
             min-height: 100vh; 
             overflow: hidden; 
+            font-size: 16px;
         }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+        /* --- Header --- */
+        .top-bar {
+            position: fixed; top: 0; left: 0; right: 0;
+            height: 60px;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
+            transition: 0.3s;
+        }
+        .toggle-btn { background: transparent; border: none; color: white; font-size: 1.2rem; cursor: pointer; display: none; }
+        .clock-area { text-align: left; display: flex; align-items: center; gap: 15px; }
+        .time-display { font-size: 1.2rem; font-weight: 700; color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
+        .date-display { font-size: 0.85rem; color: var(--text-muted); }
+        .greeting { font-weight: 600; color: var(--accent); }
 
         /* --- Sidebar --- */
         .sidebar {
-            width: 270px;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(20px);
+            width: var(--sidebar-width);
+            background: var(--bg-darker);
             border-left: 1px solid var(--glass-border);
             padding: 20px;
-            display: flex; flex-direction: column; gap: 10px;
-            z-index: 100;
+            display: flex; flex-direction: column; gap: 5px;
+            z-index: 900;
             overflow-y: auto;
+            position: relative;
+            transition: transform 0.3s ease-in-out;
+            margin-top: 60px; height: calc(100vh - 60px);
         }
-
         .brand {
             font-size: 1.5rem; font-weight: 900; color: white;
-            text-align: center; margin-bottom: 20px;
-            text-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            text-align: center; margin-bottom: 30px; letter-spacing: -0.5px;
+            display: flex; flex-direction: column; align-items: center;
         }
-        .brand span { color: var(--primary); font-size: 0.8rem; display: block; letter-spacing: 1px; font-weight: normal; }
-
-        .nav-section { font-size: 0.75rem; color: #475569; margin-top: 15px; font-weight: bold; padding-right: 10px; }
-
+        .brand i { font-size: 1.8rem; color: var(--primary); margin-bottom: 5px; }
+        .brand span { color: var(--text-muted); font-size: 0.75rem; letter-spacing: 2px; font-weight: 600; margin-top: 5px; background: rgba(255,255,255,0.05); padding: 2px 10px; border-radius: 10px; }
+        .nav-section { font-size: 0.7rem; color: #64748b; margin-top: 20px; font-weight: 900; padding-right: 15px; text-transform: uppercase; }
         .nav-btn {
-            background: transparent; border: none; color: var(--text-muted);
-            padding: 10px 15px; text-align: right; cursor: pointer; font-size: 0.95rem;
-            border-radius: 8px; transition: 0.3s; display: flex; align-items: center; gap: 10px;
+            background: transparent; border: none; color: #cbd5e1;
+            padding: 12px 15px; text-align: right; cursor: pointer; font-size: 0.95rem;
+            border-radius: 12px; transition: 0.2s; display: flex; align-items: center; gap: 12px; font-weight: 500;
         }
-        .nav-btn:hover, .nav-btn.active { background: rgba(59, 130, 246, 0.15); color: var(--primary); transform: translateX(-5px); border-right: 3px solid var(--primary); }
+        .nav-btn i { width: 20px; text-align: center; color: var(--text-muted); transition: 0.2s; }
+        .nav-btn:hover { background: rgba(255,255,255,0.03); color: white; transform: translateX(-5px); }
+        .nav-btn:hover i { color: var(--primary); }
+        .nav-btn.active { background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent); color: var(--primary); border-right: 3px solid var(--primary); }
+        .nav-btn.active i { color: var(--primary); }
 
         /* --- Main Content --- */
-        .main-content { flex: 1; padding: 30px; overflow-y: auto; height: 100vh; scroll-behavior: smooth; }
-        
-        .page { display: none; animation: fadeIn 0.4s ease; }
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; height: calc(100vh - 60px); margin-top: 60px; scroll-behavior: smooth; }
+        .page { display: none; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); padding-bottom: 50px; }
         .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        h2 { font-size: 1.8rem; margin-bottom: 25px; color: white; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; }
+        h2 i { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; font-size: 1.2rem; }
 
-        h2 { font-size: 1.8rem; margin-bottom: 20px; color: white; display: flex; align-items: center; gap: 10px; }
-        
-        /* --- Cards & Grid --- */
+        /* --- Cards --- */
         .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .dashboard-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
-        
-        .col-span-12 { grid-column: span 12; }
-        .col-span-6 { grid-column: span 6; }
-        .col-span-4 { grid-column: span 4; }
-        .col-span-8 { grid-column: span 8; }
-
-        @media (max-width: 900px) {
-            .col-span-6, .col-span-4, .col-span-8 { grid-column: span 12; }
-        }
+        .col-span-12 { grid-column: span 12; } .col-span-8 { grid-column: span 8; } .col-span-6 { grid-column: span 6; } .col-span-4 { grid-column: span 4; }
         
         .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            padding: 20px; border-radius: 16px;
-            transition: 0.3s;
-            display: flex; flex-direction: column;
+            background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid var(--glass-border);
+            padding: 25px; border-radius: 20px; transition: 0.3s; display: flex; flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); position: relative; overflow: hidden;
         }
-        .card:hover { border-color: rgba(59, 130, 246, 0.3); transform: translateY(-2px); }
+        .card:hover { border-color: rgba(59, 130, 246, 0.3); transform: translateY(-3px); }
+        .card-header { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; color: #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
 
-        .card-header { font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; color: var(--accent); display: flex; justify-content: space-between; align-items: center; }
-
-        /* Inputs & Lists */
-        input[type="text"], textarea, input[type="number"] {
-            width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid #334155;
-            border-radius: 8px; color: white; margin-bottom: 10px; outline: none; transition: 0.3s;
+        /* --- Inputs & Buttons --- */
+        input[type="text"], textarea, input[type="number"], select {
+            width: 100%; padding: 14px; background: rgba(0,0,0,0.3); border: 1px solid #334155;
+            border-radius: 12px; color: white; margin-bottom: 12px; outline: none; transition: 0.3s; font-size: 0.95rem;
         }
-        input:focus { border-color: var(--primary); }
-
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
         .btn {
-            background: var(--primary); color: white; border: none; padding: 6px 14px;
-            border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 0.9rem;
+            background: linear-gradient(135deg, var(--primary), #2563eb); color: white; border: none; padding: 10px 20px;
+            border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.2s; font-size: 0.9rem;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
         }
-        .btn:active { transform: scale(0.95); }
-        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
-        .btn-outline:hover { background: var(--primary); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-danger { background: var(--danger); box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3); }
+        .btn-warning { background: var(--accent); color: black; box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3); }
 
+        /* --- Lists --- */
         ul { list-style: none; flex: 1; }
         li {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 10px; background: rgba(255,255,255,0.03); margin-bottom: 6px; border-radius: 6px;
-            border-right: 3px solid transparent; transition: 0.2s;
+            padding: 12px 15px; background: rgba(255,255,255,0.02); margin-bottom: 8px; border-radius: 10px;
+            border: 1px solid transparent; transition: 0.2s;
         }
-        li:hover { background: rgba(255,255,255,0.06); }
-        li.checked { opacity: 0.6; text-decoration: line-through; border-right-color: var(--success); }
-        
-        .read-only-list li { cursor: pointer; }
-        .read-only-list li:hover { background: rgba(59, 130, 246, 0.1); }
-        .edit-link { font-size: 0.8rem; color: var(--text-muted); cursor: pointer; text-decoration: underline; }
+        li:hover { background: rgba(255,255,255,0.05); }
+        .task-actions { display: flex; gap: 8px; }
+        .action-btn { padding: 5px 10px; border-radius: 6px; cursor: pointer; border: none; font-size: 0.8rem; transition: 0.2s; }
+        .done-btn { background: var(--success); color: white; }
+        .done-btn:hover { background: #059669; }
+        .archive-btn { background: var(--accent); color: black; }
+        .accumulated-item { border-right: 3px solid var(--danger); }
 
-        /* --- Adhkar & Spirituality --- */
-        .adhkar-container { display: flex; flex-direction: column; gap: 15px; }
-        .dhikr-card {
-            background: rgba(15, 23, 42, 0.9); border: 1px solid #334155; padding: 20px; border-radius: 12px;
-            position: relative; cursor: pointer; user-select: none; transition: 0.2s;
-        }
-        .dhikr-card:hover { border-color: var(--primary); }
-        .dhikr-card:active { transform: scale(0.99); background: #1e293b; }
-        
-        /* تنسيق النص الطويل للأذكار */
-        .dhikr-text { 
-            font-size: 1.1rem; line-height: 1.8; margin-bottom: 15px; color: #e2e8f0; 
-            text-align: justify; font-family: 'Cairo', sans-serif;
-        }
-        
-        .dhikr-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; }
-        .count-badge { background: var(--accent); color: black; padding: 4px 12px; border-radius: 15px; font-weight: bold; min-width: 40px; text-align: center; }
-        
-        .dhikr-card.done { opacity: 0.4; border-color: var(--success); pointer-events: none; }
-        .dhikr-card.done .count-badge { background: var(--success); color: white; content: 'تم'; }
+        /* --- Specific Styles --- */
+        .rank-badge { font-size: 1.5rem; font-weight: 900; color: var(--accent); }
+        .best-day-card { background: linear-gradient(45deg, rgba(245, 158, 11, 0.1), rgba(0,0,0,0)); border: 1px solid rgba(245, 158, 11, 0.3); }
 
+        /* --- Responsive --- */
+        @media (max-width: 1024px) { .col-span-8, .col-span-6, .col-span-4 { grid-column: span 12; } }
+        @media (max-width: 768px) {
+            .sidebar { position: fixed; top: 0; right: 0; height: 100vh; width: 280px; transform: translateX(100%); box-shadow: -10px 0 30px rgba(0,0,0,0.5); z-index: 1001; margin-top: 0; padding-top: 80px; }
+            .sidebar.open { transform: translateX(0); }
+            .toggle-btn { display: block; z-index: 1002; }
+            .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s; }
+            .overlay.active { opacity: 1; pointer-events: auto; }
+            .main-content { padding: 20px 15px; }
+            .brand { display: none; }
+            .card { padding: 20px; }
+        }
+        /* Toast */
+        #toast-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2000; }
+        .toast { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); color: white; padding: 12px 24px; border-radius: 30px; margin-top: 10px; border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 10px; animation: slideUp 0.3s; }
+        .toast.success i { color: var(--success); } .toast.error i { color: var(--danger); }
     </style>
 </head>
 <body>
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <header class="top-bar">
+        <div style="display:flex; align-items:center; gap:15px;">
+            <button class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            <div class="greeting" id="greetingText">مرحباً بك</div>
+        </div>
+        <div class="clock-area">
+            <div class="date-display" id="dateDisplay">...</div>
+            <div class="time-display" id="timeDisplay">00:00</div>
+        </div>
+    </header>
 
     <div class="sidebar" id="sidebar">
-        <div class="brand">KINGS TECH <br><span>Life OS v6.0</span></div>
+        <div class="brand"><i class="fas fa-crown"></i> KINGS TECH <span>v8.1 Fixed</span></div>
         
-        <div class="nav-section">المتابعة (التنفيذ)</div>
+        <div class="nav-section">التنفيذ اليومي</div>
         <button class="nav-btn active" onclick="navTo('dashboard')"><i class="fas fa-th-large"></i> اللوحة الرئيسية</button>
+        <button class="nav-btn" onclick="navTo('goal_tomorrow')"><i class="fas fa-moon"></i> مهام الغد</button>
         
-        <div class="nav-section">التخطيط (التعديل)</div>
+        <div class="nav-section">التخطيط</div>
         <button class="nav-btn" onclick="navTo('goal_yearly')"><i class="fas fa-star"></i> أهداف 2026</button>
-        <button class="nav-btn" onclick="navTo('goal_quarterly')"><i class="fas fa-calendar-alt"></i> أهداف الربع (Q1)</button>
+        <button class="nav-btn" onclick="navTo('goal_quarterly')"><i class="fas fa-calendar-alt"></i> أهداف الربع</button>
         <button class="nav-btn" onclick="navTo('goal_monthly')"><i class="fas fa-calendar-day"></i> أهداف الشهر</button>
         <button class="nav-btn" onclick="navTo('goal_weekly')"><i class="fas fa-calendar-week"></i> أهداف الأسبوع</button>
         <button class="nav-btn" onclick="navTo('habits')"><i class="fas fa-check-double"></i> العادات</button>
 
-        <div class="nav-section">أخرى</div>
+        <div class="nav-section">التحليل والتاريخ</div>
+        <button class="nav-btn" onclick="navTo('best_days')"><i class="fas fa-trophy"></i> أفضل 10 أيام</button>
+        <button class="nav-btn" onclick="navTo('history_logs')"><i class="fas fa-history"></i> سجل الإنجازات</button>
         <button class="nav-btn" onclick="navTo('projects')"><i class="fas fa-project-diagram"></i> المشاريع</button>
-        <button class="nav-btn" onclick="navTo('adhkar')"><i class="fas fa-hands-praying"></i> حصن المسلم</button>
-        <button class="nav-btn" onclick="navTo('spirituality')"><i class="fas fa-kaaba"></i> الخلوة والمسبحة</button>
+        <button class="nav-btn" onclick="navTo('spirituality')"><i class="fas fa-kaaba"></i> الروحانيات</button>
+
+        <div style="flex:1"></div>
+        <div style="padding: 0 10px; margin-top: 20px; border-top: 1px solid var(--glass-border); padding-top: 20px;">
+            <button class="nav-btn" onclick="exportData()" style="color:var(--success); font-size:0.85rem"><i class="fas fa-download"></i> نسخة احتياطية</button>
+            <button class="nav-btn" onclick="clearData()" style="color:var(--danger); font-size:0.85rem"><i class="fas fa-trash"></i> مسح البيانات</button>
+        </div>
     </div>
 
     <div class="main-content">
         
+        <!-- Dashboard -->
         <div id="dashboard" class="page active">
-            <h2>🎯 لوحة القيادة (التنفيذ)</h2>
+            <h2><i class="fas fa-th-large"></i> لوحة القيادة</h2>
             <div class="dashboard-grid">
-                <div class="card col-span-12" style="border-color: var(--accent); background: rgba(245, 158, 11, 0.05);">
+                <div class="card col-span-12" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(15, 23, 42, 0.8));">
                     <div class="card-header">
-                        <span>⭐ أهداف 2026 الكبرى</span>
-                        <button class="btn btn-outline" onclick="navTo('goal_yearly')"><i class="fas fa-edit"></i> تعديل</button>
+                        <span>⭐ تقدمك في 2026</span>
+                        <span class="edit-link" onclick="navTo('goal_yearly')">عرض التفاصيل</span>
                     </div>
-                    <ul id="list_dash_yearly" class="read-only-list"></ul>
-                    <div id="empty_yearly" style="text-align:center; color:#64748b; font-size:0.9rem; display:none;">لم تضف أهداف بعد</div>
+                    <div style="margin-bottom:10px; font-size:2rem; font-weight:900; color:var(--primary);" id="yearlyProgressText">0%</div>
+                    <div class="progress-container" style="width:100%; background:rgba(255,255,255,0.1); height:8px; border-radius:4px; margin-top:10px;">
+                        <div class="progress-bar" id="yearlyProgressBar" style="height:100%; background:var(--success); width:0%; transition:width 0.5s;"></div>
+                    </div>
+                    <div style="margin-top:10px; display:flex; justify-content:space-between; font-size:0.8rem; color:#94a3b8;">
+                        <span id="yearlyDoneCount">0 مكتمل</span>
+                        <span id="yearlyTotalCount">0 إجمالي</span>
+                    </div>
                 </div>
                 <div class="card col-span-6">
-                    <div class="card-header"><span>📅 تركيز الشهر</span> <span class="edit-link" onclick="navTo('goal_monthly')">تعديل</span></div>
+                    <div class="card-header"><span>📅 أهداف الشهر</span> <span class="edit-link" onclick="navTo('goal_monthly')">تعديل</span></div>
                     <ul id="list_dash_monthly" class="read-only-list"></ul>
                 </div>
                 <div class="card col-span-6">
@@ -194,18 +237,51 @@
                     <ul id="list_dash_quarterly" class="read-only-list"></ul>
                 </div>
                 <div class="card col-span-8">
-                    <div class="card-header"><span>✅ متابعة اليوم</span> <span class="edit-link" onclick="navTo('habits')">تعديل</span></div>
+                    <div class="card-header"><span>✅ العادات اليومية</span> <span class="edit-link" onclick="navTo('habits')">تعديل</span></div>
                     <ul id="list_dash_habits" class="read-only-list"></ul>
                 </div>
             </div>
         </div>
 
+        <!-- NEW: Goal Tomorrow (Cycle) -->
+        <div id="goal_tomorrow" class="page">
+            <h2><i class="fas fa-moon"></i> مهام الغد</h2>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
+                <!-- Planner -->
+                <div class="card">
+                    <div class="card-header">📝 خطة الغد</div>
+                    <div style="display:flex; gap:10px; margin-bottom:20px;">
+                        <input type="text" id="in_tomorrow" placeholder="ماذا ستنجز غداً؟" style="margin:0;">
+                        <button class="btn" onclick="addItem('tomorrow', 'in_tomorrow')">إضافة</button>
+                    </div>
+                    <ul id="list_tomorrow"></ul>
+                </div>
+                
+                <!-- Today's Achievements -->
+                <div class="card" style="border-color:var(--success)">
+                    <div class="card-header" style="color:var(--success)">🏆 ما تم في هذا اليوم</div>
+                    <ul id="list_today_done" style="opacity:0.8"></ul>
+                </div>
+            </div>
+
+            <!-- Accumulated Section -->
+            <div class="card col-span-12" style="margin-top:20px; border-color:var(--danger);">
+                <div class="card-header" style="color:var(--danger); display:flex; justify-content:space-between;">
+                    <span>⛔ مهام متراكمة (Backlog)</span>
+                    <button class="btn btn-danger" onclick="processDay()">🌙 إنهاء اليوم (نقل المتبقي للمتراكم)</button>
+                </div>
+                <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:10px;">المهام التي لم تكتمل من الغد ستنقل هنا عند إنهاء اليوم.</p>
+                <ul id="list_accumulated"></ul>
+            </div>
+        </div>
+
+        <!-- Goals Pages (Standard) -->
         <div id="goal_yearly" class="page">
-            <h2>⭐ تخطيط 2026 (تعديل)</h2>
+            <h2><i class="fas fa-star"></i> تخطيط 2026</h2>
             <div class="card">
-                <div class="card-header">قائمة الأهداف السنوية</div>
+                <div class="card-header">قائمة الأهداف الكبرى</div>
                 <div style="display:flex; gap:10px; margin-bottom:20px;">
-                    <input type="text" id="in_page_yearly" placeholder="أضف هدفاً كبيراً..." style="margin:0;">
+                    <input type="text" id="in_page_yearly" placeholder="أضف هدفاً سنوياً..." style="margin:0;">
                     <button class="btn" onclick="addItem('yearly', 'in_page_yearly')">إضافة</button>
                 </div>
                 <ul id="list_page_yearly"></ul>
@@ -213,7 +289,7 @@
         </div>
 
         <div id="goal_quarterly" class="page">
-            <h2>📊 تخطيط الربع (Q1)</h2>
+            <h2><i class="fas fa-calendar-alt"></i> تخطيط الربع</h2>
             <div class="card">
                 <div class="card-header">أهداف الـ 90 يوم</div>
                 <div style="display:flex; gap:10px; margin-bottom:20px;">
@@ -225,11 +301,11 @@
         </div>
 
         <div id="goal_monthly" class="page">
-            <h2>📅 تخطيط الشهر</h2>
+            <h2><i class="fas fa-calendar-day"></i> تخطيط الشهر</h2>
             <div class="card">
-                <div class="card-header">أولويات هذا الشهر</div>
+                <div class="card-header">أولويات الشهر</div>
                 <div style="display:flex; gap:10px; margin-bottom:20px;">
-                    <input type="text" id="in_page_monthly" placeholder="أضف هدفاً..." style="margin:0;">
+                    <input type="text" id="in_page_monthly" placeholder="أضف هدفاً شهرياً..." style="margin:0;">
                     <button class="btn" onclick="addItem('monthly', 'in_page_monthly')">إضافة</button>
                 </div>
                 <ul id="list_page_monthly"></ul>
@@ -237,7 +313,7 @@
         </div>
 
         <div id="goal_weekly" class="page">
-            <h2>⚡ تخطيط الأسبوع</h2>
+            <h2><i class="fas fa-calendar-week"></i> تخطيط الأسبوع</h2>
             <div class="card">
                 <div class="card-header">مهام الأسبوع</div>
                 <div style="display:flex; gap:10px; margin-bottom:20px;">
@@ -249,10 +325,10 @@
         </div>
 
         <div id="habits" class="page">
-            <h2>✅ العادات والنظام</h2>
+            <h2><i class="fas fa-check-double"></i> العادات</h2>
             <div class="grid-container">
                 <div class="card">
-                    <div class="card-header">العادات اليومية</div>
+                    <div class="card-header">🟢 عادات إيجابية</div>
                     <div style="display:flex; gap:10px; margin-bottom:20px;">
                         <input type="text" id="in_page_habits" placeholder="عادة جديدة..." style="margin:0;">
                         <button class="btn" onclick="addItem('habits', 'in_page_habits')">إضافة</button>
@@ -260,216 +336,521 @@
                     <ul id="list_page_habits"></ul>
                 </div>
                 <div class="card" style="border-color:var(--danger)">
-                    <div class="card-header" style="color:var(--danger)">⛔ قائمة التوقف</div>
+                    <div class="card-header" style="color:var(--danger)">🔴 قائمة التوقف</div>
                     <div style="display:flex; gap:10px; margin-bottom:20px;">
                         <input type="text" id="in_stop" placeholder="سأتوقف عن..." style="margin:0;">
-                        <button class="btn" style="background:var(--danger)" onclick="addItem('stopList', 'in_stop')">حظر</button>
+                        <button class="btn btn-danger" onclick="addItem('stopList', 'in_stop')">حظر</button>
                     </div>
                     <ul id="list_stop"></ul>
                 </div>
             </div>
         </div>
 
-        <div id="adhkar" class="page">
-            <h2>📿 حصن المسلم</h2>
-            <div style="display:flex; gap:10px; margin-bottom:20px;">
-                <button class="btn" onclick="renderAdhkar('morning')">🌅 الصباح</button>
-                <button class="btn" style="background:var(--accent); color:black;" onclick="renderAdhkar('evening')">🌇 المساء</button>
-                <button class="btn" style="background:#4f46e5" onclick="renderAdhkar('sleep')">💤 النوم</button>
+        <!-- NEW: Best 10 Days -->
+        <div id="best_days" class="page">
+            <h2><i class="fas fa-trophy"></i> أفضل 10 أيام</h2>
+            <div class="grid-container">
+                <div class="card" style="border-color:var(--accent)">
+                    <div class="card-header">سجل يوم رائع</div>
+                    <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:10px;">التقييم من 1 إلى 10، سيتم ترتيب الأيام تلقائياً.</p>
+                    <input type="date" id="day_date">
+                    <textarea id="day_desc" placeholder="ماذا حدث في هذا اليوم؟" rows="3" style="resize:none;"></textarea>
+                    <input type="number" id="day_rate" placeholder="التقييم (1-10)" max="10" min="1">
+                    <button class="btn btn-warning" onclick="addBestDay()">حفظ اليوم</button>
+                </div>
+                <div class="card col-span-2" id="best_days_list_container" style="grid-column: span 2; display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:15px;"></div>
             </div>
-            <div id="adhkarContainer" class="adhkar-container"></div>
         </div>
 
-        <div id="spirituality" class="page">
-            <h2>🕋 الخلوة والمسبحة</h2>
-            <div class="grid-container">
-                <div class="card">
-                    <div class="card-header">📖 الورد القرآني</div>
-                    <div style="text-align:center;">
-                        <p style="color:#ccc; margin-bottom:10px;">وصلت للصفحة رقم:</p>
-                        <input type="number" id="quranPage" oninput="saveData(this.value)" style="font-size:2rem; text-align:center; width:120px; margin:0 auto; display:block; border-color:var(--primary);" placeholder="0">
-                    </div>
+        <!-- NEW: History Logs -->
+        <div id="history_logs" class="page">
+            <h2><i class="fas fa-history"></i> سجل الإنجازات الشامل</h2>
+            <div class="dashboard-grid">
+                <div class="card col-span-4">
+                    <div class="card-header">📅 إنجازات الشهر</div>
+                    <ul id="log_monthly" class="read-only-list"></ul>
                 </div>
-
-                <div class="card">
-                    <div class="card-header">🧘 جلسة الخلوة</div>
-                    <div style="text-align:center;">
-                        <div id="khulwaTimer" style="font-size:3rem; font-weight:bold; color:var(--primary); margin:10px 0; letter-spacing:2px;">00:00</div>
-                        <button class="btn" id="khulwaBtn" onclick="toggleKhulwa()">بدء الخلوة</button>
-                    </div>
+                <div class="card col-span-4">
+                    <div class="card-header">📊 إنجازات الربع</div>
+                    <ul id="log_quarterly" class="read-only-list"></ul>
                 </div>
-
-                <div class="card" style="text-align:center;">
-                    <div class="card-header" style="justify-content:center">📿 المسبحة</div>
-                    <div style="font-size:4rem; font-weight:bold; color:var(--accent); cursor:pointer; user-select:none; border:5px solid rgba(255,255,255,0.1); border-radius:50%; width:180px; height:180px; line-height:170px; margin:0 auto; transition:0.1s;" 
-                         onclick="incMasbaha()" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'" id="dhikrNum">0</div>
-                    <p style="color:var(--text-muted); margin-top:15px;">اضغط للعد</p>
-                    <div style="margin-top:20px; display:flex; gap:10px; justify-content:center;">
-                        <button class="btn" onclick="saveXP()">حفظ (+XP)</button>
-                        <button class="btn btn-danger" onclick="resetMasbaha()">تصفير</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">الصلوات الخمس</div>
-                    <div id="salahContainer"></div>
+                <div class="card col-span-4">
+                    <div class="card-header">⭐ إنجازات السنة</div>
+                    <ul id="log_yearly" class="read-only-list"></ul>
                 </div>
             </div>
         </div>
         
         <div id="projects" class="page">
-            <h2>🚀 المشاريع (Kanban)</h2>
-            <div style="display:flex; gap:15px; overflow-x:auto; padding-bottom:10px;">
-                <div style="flex:1; min-width:260px; background:rgba(255,255,255,0.05); padding:15px; border-radius:10px;">
-                    <h3>📋 أفكار</h3><div id="kb_todo"></div><input id="kb_in" onkeypress="if(event.key=='Enter') addKB()" placeholder="+ مشروع" style="margin-top:10px;">
-                </div>
-                <div style="flex:1; min-width:260px; background:rgba(59,130,246,0.1); padding:15px; border-radius:10px;">
-                    <h3>🔥 قيد التنفيذ</h3><div id="kb_doing"></div>
-                </div>
-                <div style="flex:1; min-width:260px; background:rgba(16,185,129,0.1); padding:15px; border-radius:10px;">
-                    <h3>✅ تم</h3><div id="kb_done"></div>
-                </div>
+            <h2><i class="fas fa-project-diagram"></i> المشاريع</h2>
+            <div style="display:flex; gap:20px; overflow-x:auto; padding-bottom:10px;">
+                <div style="flex:1; min-width:280px; background:rgba(255,255,255,0.02); padding:15px; border-radius:12px; border:1px solid var(--glass-border);"><h3 style="margin-bottom:15px; color:#94a3b8;">📋 أفكار</h3><div id="kb_todo"></div><input id="kb_in" onkeypress="if(event.key=='Enter') addKB()" placeholder="+ مشروع" style="margin-top:15px;"></div>
+                <div style="flex:1; min-width:280px; background:rgba(59,130,246,0.05); padding:15px; border-radius:12px; border:1px solid rgba(59,130,246,0.2);"><h3 style="margin-bottom:15px; color:var(--primary);">🔥 جاري العمل</h3><div id="kb_doing"></div></div>
+                <div style="flex:1; min-width:280px; background:rgba(16,185,129,0.05); padding:15px; border-radius:12px; border:1px solid rgba(16,185,129,0.2);"><h3 style="margin-bottom:15px; color:var(--success);">✅ تم</h3><div id="kb_done"></div></div>
             </div>
         </div>
 
+        <div id="spirituality" class="page">
+            <h2><i class="fas fa-kaaba"></i> العبادة والتركيز</h2>
+            <div class="grid-container">
+                <div class="card"><div class="card-header">📖 القرآن</div><div style="text-align:center;"><input type="number" id="quranPage" onchange="saveData(this.value)" style="font-size:2rem; text-align:center; width:140px; border-color:var(--primary);" placeholder="0"></div></div>
+                <div class="card"><div class="card-header">🍅 مؤقت</div><div id="pomodoroTimer" style="font-size:3rem; text-align:center; font-weight:900;">25:00</div><div style="display:flex; justify-content:center; gap:10px;"><button class="btn" onclick="togglePomodoro()">بدء</button><button class="btn btn-outline" onclick="resetPomodoro()">إعادة</button></div></div>
+                <div class="card" style="text-align:center;"><div class="card-header" style="justify-content:center">📿 المسبحة</div><div style="font-size:3.5rem; font-weight:bold; color:var(--accent); cursor:pointer; border:4px solid rgba(255,255,255,0.05); border-radius:50%; width:160px; height:160px; line-height:150px; margin:0 auto;" onclick="incMasbaha()" id="dhikrNum">0</div><button class="btn" onclick="saveXP()" style="margin-top:15px;">حفظ</button></div>
+                <div class="card"><div class="card-header">🕌 الصلوات</div><div id="salahContainer"></div></div>
+            </div>
+        </div>
     </div>
+    <div id="toast-container"></div>
 
     <script>
-        // --- DATA STRUCTURE ---
+        const STORAGE_KEY = 'kingsTechOS_v8_fix'; // Changed key to force clean slate
+
         const defaultData = {
             yearly: [], quarterly: [], monthly: [], weekly: [], habits: [], stopList: [],
+            tomorrow: [], todayDone: [], accumulated: [], // New Daily Cycle
+            bestDays: [], // New Best Days
             salah: { fajr: false, dhuhr: false, asr: false, maghrib: false, isha: false },
             kanban: { todo: [], doing: [], done: [] },
             quranPage: 0, xp: 0
         };
 
-        let data = JSON.parse(localStorage.getItem('kingsTechOS_v6')) || defaultData;
-        if (typeof data.yearly === 'string') { data.yearly = [{text: data.yearly, checked: false}]; }
+        let data;
+        
+        // Safe Loading
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                data = { ...defaultData, ...parsed }; // Merge to ensure new fields exist
+            } else {
+                data = defaultData;
+            }
+        } catch (e) {
+            console.error("Data corrupted, resetting...", e);
+            data = defaultData;
+        }
 
-        window.onload = function() { refreshAll(); };
-        function save() { localStorage.setItem('kingsTechOS_v6', JSON.stringify(data)); }
+        window.onload = function() { 
+            refreshAll(); 
+            startClock(); 
+            renderBestDays(); 
+            renderHistoryLogs(); 
+        };
+        
+        function save() { 
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); 
+        }
 
-        // --- CORE ---
         function refreshAll() {
-            renderList('yearly', 'list_dash_yearly', false);
+            // Render Lists
+            renderList('yearly', 'list_dash_yearly', false); 
             renderList('monthly', 'list_dash_monthly', false);
-            renderList('weekly', 'list_dash_weekly', false);
+            renderList('weekly', 'list_dash_weekly', false); 
             renderList('quarterly', 'list_dash_quarterly', false);
             renderList('habits', 'list_dash_habits', false);
-            renderList('yearly', 'list_page_yearly', true);
+            
+            renderList('yearly', 'list_page_yearly', true); 
             renderList('monthly', 'list_page_monthly', true);
-            renderList('weekly', 'list_page_weekly', true);
+            renderList('weekly', 'list_page_weekly', true); 
             renderList('quarterly', 'list_page_quarterly', true);
-            renderList('habits', 'list_page_habits', true);
+            renderList('habits', 'list_page_habits', true); 
             renderList('stopList', 'list_stop', true);
-            document.getElementById('empty_yearly').style.display = data.yearly.length ? 'none' : 'block';
+            
+            // Daily Cycle Rendering
+            renderTomorrowList();
+            renderList('todayDone', 'list_today_done', false); 
+            renderAccumulatedList();
+
+            // Stats & Other
+            updateProgressBars(); 
             document.getElementById('quranPage').value = data.quranPage || 0;
-            renderKanban();
+            renderKanban(); 
             renderSalah();
         }
 
         function addItem(key, inputId) { 
-            const input = document.getElementById(inputId); if(!input.value) return;
+            const input = document.getElementById(inputId); 
+            if(!input.value.trim()) { showToast('الرجاء كتابة شيء ما', 'error'); return; }
+            
+            if (!Array.isArray(data[key])) data[key] = []; // Safety check
+
             data[key].push({ text: input.value, checked: false });
-            input.value = ""; save(); refreshAll();
+            input.value = ""; 
+            save(); 
+            refreshAll(); 
+            showToast('تمت الإضافة', 'success');
         }
+
         function renderList(key, elementId, allowDelete) {
-            const list = document.getElementById(elementId); if(!list) return; list.innerHTML = "";
+            const list = document.getElementById(elementId); 
+            if(!list) return; 
+            
+            list.innerHTML = "";
+            if (!Array.isArray(data[key])) data[key] = [];
+
             data[key].forEach((item, idx) => {
-                const li = document.createElement('li'); if(item.checked) li.classList.add('checked');
+                const li = document.createElement('li'); 
+                if(item.checked) li.classList.add('checked');
                 let del = allowDelete ? `<i class="fas fa-trash" onclick="deleteItem('${key}', ${idx})" style="color:var(--danger); cursor:pointer;"></i>` : '';
                 li.innerHTML = `<div onclick="toggleCheck('${key}', ${idx})" style="cursor:pointer; flex:1; display:flex; align-items:center; gap:10px;"><i class="fas ${item.checked ? 'fa-check-circle' : 'fa-circle'}" style="color:${item.checked?'var(--success)':'#475569'}"></i><span>${item.text}</span></div>${del}`;
                 list.appendChild(li);
             });
         }
-        function toggleCheck(key, idx) { data[key][idx].checked = !data[key][idx].checked; save(); refreshAll(); }
-        function deleteItem(key, idx) { data[key].splice(idx, 1); save(); refreshAll(); }
-        function navTo(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            const btn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(id));
-            if(btn) btn.classList.add('active');
-        }
 
-        // --- SPIRITUALITY ---
-        function saveData(val) { if(val) data.quranPage = val; save(); }
-        let khulwaInterval, khulwaSeconds = 0;
-        function toggleKhulwa() {
-            const btn = document.getElementById('khulwaBtn');
-            if(khulwaInterval) { clearInterval(khulwaInterval); khulwaInterval=null; btn.innerText="استئناف الخلوة"; } 
-            else { btn.innerText="توقف مؤقت"; khulwaInterval = setInterval(() => { khulwaSeconds++; let mins = Math.floor(khulwaSeconds / 60).toString().padStart(2, '0'); let secs = (khulwaSeconds % 60).toString().padStart(2, '0'); document.getElementById('khulwaTimer').innerText = `${mins}:${secs}`; }, 1000); }
-        }
-        let mCount = 0;
-        function incMasbaha() { mCount++; document.getElementById('dhikrNum').innerText = mCount; }
-        function resetMasbaha() { mCount=0; document.getElementById('dhikrNum').innerText = 0; }
-        function saveXP() { alert("تم حفظ الورد!"); resetMasbaha(); }
+        // --- TOMORROW CYCLE LOGIC ---
+        function renderTomorrowList() {
+            const list = document.getElementById('list_tomorrow'); 
+            if(!list) return;
+            list.innerHTML = "";
+            
+            if (!Array.isArray(data.tomorrow)) data.tomorrow = [];
 
-        // --- AUTHENTIC FULL ADHKAR ---
-        const adhkarDB = {
-            morning: [
-                {t:"أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ (اللَّهُ لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ...)", c:1},
-                {t:"بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ (قُلْ هُوَ اللَّهُ أَحَدٌ)، (قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ)، (قُلْ أَعُوذُ بِرَبِّ النَّاسِ) (3 مرات)", c:3},
-                {t:"أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ", c:1},
-                {t:"اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ", c:1},
-                {t:"(سيد الاستغفار) اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لاَ يَغْفِرُ الذُّنُوبَ إِلاَّ أَنْتَ", c:1},
-                {t:"بِسْمِ اللَّهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ (3 مرات)", c:3},
-                {t:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ (3 مرات)", c:3},
-                {t:"اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لاَ إِلَهَ إِلاَّ أَنْتَ. اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ، وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لاَ إِلَهَ إِلاَّ أَنْتَ (3 مرات)", c:3},
-                {t:"يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ أَصْلِحْ لِي شَأْنِي كُلَّهُ وَلاَ تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ", c:1},
-                {t:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ (100 مرة)", c:100},
-                {t:"لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ (100 مرة)", c:100}
-            ],
-            evening: [
-                {t:"آية الكرسي", c:1},
-                {t:"المعوذات (3 مرات)", c:3},
-                {t:"أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذِهِ اللَّيْلَةِ وَشَرِّ مَا بَعْدَهَا، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ", c:1},
-                {t:"اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ", c:1},
-                {t:"(سيد الاستغفار) اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ...", c:1},
-                {t:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ (3 مرات)", c:3},
-                {t:"بِسْمِ اللَّهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ (3 مرات)", c:3},
-                {t:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ (100 مرة)", c:100}
-            ],
-            sleep: [
-                {t:"يجمع كفيه ثم ينفث فيهما ويقرأ: قُلْ هُوَ اللَّهُ أَحَدٌ، وَقُلْ أَعُوذُ بِرَبِّ الْفَلَقِ، وَقُلْ أَعُوذُ بِرَبِّ النَّاسِ، ثم يمسح بهما ما استطاع من جسده، يبدأ بهما على رأسه ووجهه وما أقبل من جسده (يفعل ذلك ثلاث مرات)", c:3},
-                {t:"آية الكرسي: (اللَّهُ لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ...)", c:1},
-                {t:"بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا، بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ", c:1},
-                {t:"اللَّهُمَّ إِنَّكَ خَلَقْتَ نَفْسِي وَأَنْتَ تَوَفَّاهَا، لَكَ مَمَاتُهَا وَمَحْيَاهَا، إِنْ أَحْيَيْتَهَا فَاحْفَظْهَا، وَإِنْ أَمَتَّهَا فَاغْفِرْ لَهَا. اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ", c:1},
-                {t:"سُبْحَانَ اللَّهِ (33)، الْحَمْدُ لِلَّهِ (33)، اللَّهُ أَكْبَرُ (34)", c:1},
-                {t:"سورة الملك", c:1}
-            ]
-        };
-
-        function renderAdhkar(type) {
-            const c = document.getElementById('adhkarContainer'); c.innerHTML = "";
-            adhkarDB[type].forEach((item, i) => {
-                const div = document.createElement('div'); div.className = "dhikr-card";
-                div.innerHTML = `<div class="dhikr-text">${item.t}</div><div class="dhikr-footer"><span>اضغط للعد</span><div class="count-badge" id="d-cnt-${i}">${item.c}</div></div>`;
-                let count = item.c;
-                div.onclick = () => { if(count>0){ count--; div.querySelector(`#d-cnt-${i}`).innerText = count; if(count===0) div.classList.add('done'); }};
-                c.appendChild(div);
+            data.tomorrow.forEach((item, idx) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${item.text}</span>
+                    <div class="task-actions">
+                        <button class="action-btn done-btn" onclick="completeTomorrow(${idx})"><i class="fas fa-check"></i> تم</button>
+                        <button class="action-btn" style="background:var(--danger); color:white;" onclick="deleteItem('tomorrow', ${idx})"><i class="fas fa-times"></i></button>
+                    </div>
+                `;
+                list.appendChild(li);
             });
         }
 
-        // --- OTHER ---
-        function addKB() { let v=document.getElementById('kb_in').value; if(v){ data.kanban.todo.push(v); document.getElementById('kb_in').value=""; save(); renderKanban(); }}
+        function completeTomorrow(idx) {
+            if (!Array.isArray(data.tomorrow) || !data.tomorrow[idx]) return;
+            const task = data.tomorrow.splice(idx, 1)[0];
+            if (!Array.isArray(data.todayDone)) data.todayDone = [];
+            data.todayDone.push(task);
+            save(); 
+            refreshAll(); 
+            showToast('نقل لما تم اليوم', 'success');
+        }
+
+        function processDay() {
+            if(confirm('هل تريد إنهاء اليوم؟ سيتم نقل المهام غير المنجزة إلى "المتراكمة" وتصفير قائمة الغد.')) {
+                if (!Array.isArray(data.accumulated)) data.accumulated = [];
+                if (!Array.isArray(data.tomorrow)) data.tomorrow = [];
+                
+                data.accumulated = [...data.accumulated, ...data.tomorrow];
+                data.tomorrow = []; 
+                save(); 
+                refreshAll(); 
+                showToast('تم إنهاء اليوم بنجاح', 'success');
+            }
+        }
+
+        function renderAccumulatedList() {
+            const list = document.getElementById('list_accumulated'); 
+            if(!list) return;
+            list.innerHTML = "";
+            
+            if (!Array.isArray(data.accumulated)) data.accumulated = [];
+
+            data.accumulated.forEach((item, idx) => {
+                const li = document.createElement('li'); 
+                li.className = 'accumulated-item';
+                li.innerHTML = `
+                    <span style="color:#94a3b8">${item.text}</span>
+                    <div class="task-actions">
+                        <button class="action-btn done-btn" onclick="restoreAccumulated(${idx})">استعادة لغد</button>
+                        <button class="action-btn" style="background:var(--danger); color:white;" onclick="deleteItem('accumulated', ${idx})">حذف نهائي</button>
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function restoreAccumulated(idx) {
+            if (!Array.isArray(data.accumulated) || !data.accumulated[idx]) return;
+            const task = data.accumulated.splice(idx, 1)[0];
+            if (!Array.isArray(data.tomorrow)) data.tomorrow = [];
+            data.tomorrow.push(task);
+            save(); 
+            refreshAll();
+        }
+
+        // --- BEST DAYS LOGIC (Auto Sort) ---
+        function addBestDay() {
+            const date = document.getElementById('day_date').value;
+            const desc = document.getElementById('day_desc').value;
+            const rate = parseInt(document.getElementById('day_rate').value);
+
+            if(!date || !desc || !rate) { showToast('الرجاء تعبئة جميع البيانات', 'error'); return; }
+            if (!Array.isArray(data.bestDays)) data.bestDays = [];
+
+            data.bestDays.push({ date, desc, rate });
+            
+            // Auto Sort Descending by Rate
+            data.bestDays.sort((a, b) => b.rate - a.rate);
+            
+            // Keep Top 10
+            if(data.bestDays.length > 10) data.bestDays = data.bestDays.slice(0, 10);
+
+            save(); 
+            renderBestDays(); 
+            showToast('تم تسجيل اليوم والترتيب التلقائي', 'success');
+            document.getElementById('day_desc').value = "";
+        }
+
+        function renderBestDays() {
+            const container = document.getElementById('best_days_list_container'); 
+            if(!container) return;
+            container.innerHTML = "";
+            
+            if (!Array.isArray(data.bestDays)) data.bestDays = [];
+
+            data.bestDays.forEach((day, i) => {
+                const div = document.createElement('div');
+                div.className = "card best-day-card";
+                div.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span class="rank-badge">${day.rate}/10</span>
+                        <i class="fas fa-medal" style="color:${i===0?'#FFD700':(i===1?'#C0C0C0':'#CD7F32'); font-size:1.5rem;"></i>
+                    </div>
+                    <h4 style="margin:10px 0; color:white;">${day.date}</h4>
+                    <p style="font-size:0.9rem; color:#cbd5e1;">${day.desc}</p>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // --- HISTORY LOGS (Aggregator) ---
+        function renderHistoryLogs() {
+            // Safety check
+            if(!Array.isArray(data.monthly)) data.monthly = [];
+            if(!Array.isArray(data.quarterly)) data.quarterly = [];
+            if(!Array.isArray(data.yearly)) data.yearly = [];
+
+            const logMonth = data.monthly.filter(i => i.checked);
+            const logQuarter = data.quarterly.filter(i => i.checked);
+            const logYear = data.yearly.filter(i => i.checked);
+
+            renderSimpleList('log_monthly', logMonth);
+            renderSimpleList('log_quarterly', logQuarter);
+            renderSimpleList('log_yearly', logYear);
+        }
+
+        function renderSimpleList(elementId, items) {
+            const list = document.getElementById(elementId); 
+            if(!list) return;
+            list.innerHTML = "";
+            if(items.length === 0) { list.innerHTML = `<li style="justify-content:center; color:#64748b;">لا توجد إنجازات بعد</li>`; return; }
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `<span>${item.text}</span><i class="fas fa-check-circle" style="color:var(--success)"></i>`;
+                list.appendChild(li);
+            });
+        }
+
+        // --- UTILITIES & REST ---
+        function toggleCheck(key, idx) { 
+            if(!data[key] || !data[key][idx]) return;
+            data[key][idx].checked = !data[key][idx].checked; 
+            save(); 
+            refreshAll(); 
+            renderHistoryLogs(); 
+        }
+        
+        function deleteItem(key, idx) { 
+            if(!data[key]) return;
+            data[key].splice(idx, 1); 
+            save(); 
+            refreshAll(); 
+        }
+        
+        function navTo(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            const page = document.getElementById(id);
+            if(page) page.classList.add('active');
+            
+            const btn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(id));
+            if(btn) btn.classList.add('active');
+            if(window.innerWidth <= 768) { 
+                document.getElementById('sidebar').classList.remove('open'); 
+                document.getElementById('overlay').classList.remove('active'); 
+            }
+        }
+        
+        function toggleSidebar() { 
+            document.getElementById('sidebar').classList.toggle('open'); 
+            document.getElementById('overlay').classList.toggle('active'); 
+        }
+        
+        function showToast(msg, type='success') {
+            const container = document.getElementById('toast-container');
+            if(!container) return;
+            const toast = document.createElement('div'); 
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<i class="fas ${type==='success'?'fa-check-circle':'fa-exclamation-circle'}"></i> <span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { 
+                if(toast.parentNode) {
+                    toast.style.opacity='0'; 
+                    setTimeout(()=>{ if(toast.parentNode) toast.remove(); }, 300); 
+                }
+            }, 3000);
+        }
+        
+        function startClock() {
+            const update = () => {
+                const now = new Date();
+                const t = document.getElementById('timeDisplay');
+                const d = document.getElementById('dateDisplay');
+                const g = document.getElementById('greetingText');
+                
+                if(t) t.innerText = now.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false});
+                if(d) d.innerText = now.toLocaleDateString('ar-EG', {weekday: 'long', day:'numeric', month:'numeric'});
+                
+                if(g) {
+                    const h = now.getHours(); 
+                    g.innerText = (h<12?"صباح الخير":(h<17?"طاب يومك":"مساء الخير")) + "، أيها الملك 👑";
+                }
+            };
+            update(); 
+            setInterval(update, 1000);
+        }
+        
+        function updateProgressBars() {
+            if(!Array.isArray(data.yearly)) return;
+            const total = data.yearly.length; 
+            const done = data.yearly.filter(i => i.checked).length;
+            const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+            
+            const t = document.getElementById('yearlyProgressText');
+            const p = document.getElementById('yearlyProgressBar');
+            const tc = document.getElementById('yearlyDoneCount');
+            const tot = document.getElementById('yearlyTotalCount');
+            
+            if(t) t.innerText = `${percent}%`;
+            if(p) p.style.width = `${percent}%`;
+            if(tc) tc.innerText = `${done} مكتمل`;
+            if(tot) tot.innerText = `${total} إجمالي`;
+        }
+        
+        function clearData() { 
+            if(confirm('⚠️ تحذير: سيتم مسح كل شيء!')) { 
+                localStorage.removeItem(STORAGE_KEY); 
+                location.reload(); 
+            } 
+        }
+        
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+            const a = document.createElement('a'); 
+            a.setAttribute("href", dataStr); 
+            a.setAttribute("download", "KingsTech_Backup.json"); 
+            document.body.appendChild(a); 
+            a.click(); 
+            if(a.parentNode) a.parentNode.removeChild(a);
+        }
+        
+        // Pomodoro
+        let pInterval, pSec = 25*60;
+        function togglePomodoro() {
+            const btn = document.querySelector('#spirituality .btn'); 
+            if(pInterval) { 
+                clearInterval(pInterval); 
+                pInterval=null; 
+                if(btn) btn.innerText="بدء"; 
+            } else { 
+                if(btn) btn.innerText="إيقاف"; 
+                pInterval = setInterval(()=>{ 
+                    pSec--; 
+                    if(pSec<=0){ 
+                        clearInterval(pInterval); 
+                        pInterval=null; 
+                        showToast('انتهى الوقت', 'success'); 
+                        pSec=25*60; 
+                        if(btn) btn.innerText="بدء"; 
+                    } 
+                    let m=Math.floor(pSec/60).toString().padStart(2,'0'); 
+                    let s=(pSec%60).toString().padStart(2,'0'); 
+                    const pt = document.getElementById('pomodoroTimer');
+                    if(pt) pt.innerText=m+':'+s; 
+                }, 1000); 
+            }
+        }
+        function resetPomodoro() { 
+            clearInterval(pInterval); 
+            pInterval=null; 
+            pSec=25*60; 
+            const pt = document.getElementById('pomodoroTimer');
+            if(pt) pt.innerText="25:00"; 
+            const btn = document.querySelector('#spirituality .btn');
+            if(btn) btn.innerText="بدء"; 
+        }
+        
+        function incMasbaha() { 
+            const d = document.getElementById('dhikrNum');
+            if(d) d.innerText = ++mCount; 
+        } 
+        let mCount = 0;
+        
+        function saveXP() { 
+            showToast('حفظ الورد', 'success'); 
+            mCount=0; 
+            const d = document.getElementById('dhikrNum');
+            if(d) d.innerText=0; 
+        }
+        
+        function renderSalah() {
+            const c=document.getElementById('salahContainer'); 
+            if(!c) return;
+            c.innerHTML="";
+            const n={fajr:"الفجر",dhuhr:"الظهر",asr:"العصر",maghrib:"المغرب",isha:"العشاء"};
+            for(let k in n){
+                if(!data.salah) data.salah = {};
+                const d=document.createElement('div'); 
+                d.style=`display:flex; justify-content:space-between; padding:10px; background:${data.salah[k]?'var(--success)':'rgba(255,255,255,0.05)'}; margin-bottom:5px; border-radius:5px; cursor:pointer;`;
+                d.innerHTML=`<span>${n[k]}</span><span>${data.salah[k]?'✅':'⭕'}</span>`;
+                d.onclick=()=>{
+                    data.salah[k]=!data.salah[k]; 
+                    save(); 
+                    renderSalah(); 
+                }; 
+                c.appendChild(d);
+            }
+        }
+        
+        // Kanban
+        function addKB() { 
+            let v=document.getElementById('kb_in').value; 
+            if(v){ 
+                if(!data.kanban) data.kanban = {todo:[],doing:[],done:[]};
+                data.kanban.todo.push(v); 
+                document.getElementById('kb_in').value=""; 
+                save(); 
+                renderKanban(); 
+            }
+        }
         function renderKanban() {
             ['todo','doing','done'].forEach(k => {
-                const d = document.getElementById(`kb_${k}`); d.innerHTML="";
-                data.kanban[k].forEach((t, i) => {
+                const d=document.getElementById(`kb_${k}`); 
+                if(!d) return;
+                d.innerHTML="";
+                if(!data.kanban || !Array.isArray(data.kanban[k])) return;
+                
+                data.kanban[k].forEach((t,i) => {
                     d.innerHTML += `<div style="background:rgba(255,255,255,0.1); padding:8px; margin-bottom:5px; border-radius:5px; display:flex; justify-content:space-between;"><span onclick="moveKB('${k}',${i})" style="cursor:pointer; flex:1">${t}</span><i class="fas fa-times" style="color:var(--danger); cursor:pointer" onclick="delKB('${k}',${i})"></i></div>`;
                 });
             });
         }
-        function moveKB(f, i) { let t=f==='todo'?'doing':(f==='doing'?'done':null); if(t){data.kanban[t].push(data.kanban[f].splice(i,1)[0]); save(); renderKanban();} }
-        function delKB(k,i) { data.kanban[k].splice(i,1); save(); renderKanban(); }
-        function renderSalah() {
-            const c=document.getElementById('salahContainer'); c.innerHTML="";
-            const names={fajr:"الفجر",dhuhr:"الظهر",asr:"العصر",maghrib:"المغرب",isha:"العشاء"};
-            for(let k in names){
-                const d=document.createElement('div'); d.style=`display:flex; justify-content:space-between; padding:10px; background:${data.salah[k]?'var(--success)':'rgba(255,255,255,0.05)'}; margin-bottom:5px; border-radius:5px; cursor:pointer;`;
-                d.innerHTML=`<span>${names[k]}</span><span>${data.salah[k]?'✅':'⭕'}</span>`;
-                d.onclick=()=>{data.salah[k]=!data.salah[k]; save(); renderSalah();}; c.appendChild(d);
+        function moveKB(f,i) { 
+            let t=f==='todo'?'doing':(f==='doing'?'done':null); 
+            if(t && data.kanban && data.kanban[f] && Array.isArray(data.kanban[t])){
+                data.kanban[t].push(data.kanban[f].splice(i,1)[0]); 
+                save(); 
+                renderKanban(); 
+            }
+        }
+        function delKB(k,i) { 
+            if(data.kanban && data.kanban[k] && Array.isArray(data.kanban[k])){
+                data.kanban[k].splice(i,1); 
+                save(); 
+                renderKanban(); 
             }
         }
     </script>
